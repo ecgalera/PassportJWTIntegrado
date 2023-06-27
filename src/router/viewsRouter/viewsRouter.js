@@ -1,14 +1,15 @@
 import {Router} from "express";
-import productModel from "../../dao/fs/mongodb/models/productModel.js";
-import CartsManager from "../../dao/fs/mongodb/manager/cartManager.js";
+import productModel from "../../dao/mongodb/models/productModel.js";
+// import CartsManager from "../../dao/mongodb/manager/cartManager.js";
 // import ProductsManager from "../../dao/fs/mongodb/manager/productsManagers.js";
+import {cm} from "../../dao/index.js"
 
 
 
 const router = Router();
 
 // const productsManager = new ProductsManager();
-const cartsManager = new CartsManager();
+//const cm = new CartsManager();
 
 router.get("/", async (req, res) => {
   const { page = 1 } = req.query;
@@ -55,13 +56,13 @@ router.get("/", async (req, res) => {
 // });
 
 router.get("/cart", async (req, res) => {
-  const carts = await cartsManager.getCarts();
+  const carts = await cm.getCarts();
   res.render("cart", { carts, css: "cart" });
 });
 
 router.get("/cart/:cid", async (req, res) => {
   const cid = req.params.cid;
-  const carts = await cartsManager.getCarts();
+  const carts = await cm.getCarts();
   const cartSelected = carts.find((cart) => cart._id == cid);
   res.render("oneCart", { cartSelected, css: "cart" });
 });

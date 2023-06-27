@@ -1,10 +1,11 @@
 import { Router } from "express";
-import CartManger from "../../dao/fs/mongodb/manager/cartManager.js";
+//`import CartManger from "../../dao/fs/mongodb/manager/cartManager.js";`
+import {cm} from "../../dao/index.js";
 // import cartModel from "../../dao/fs/mongodb/models/cartsModels.js";
 // import mongoose from "mongoose";
 
 
-const cm = new CartManger()
+// const cm = new CartManger()
 
 const router = Router();
 
