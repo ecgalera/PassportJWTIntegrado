@@ -16,7 +16,7 @@ import SessionsRouter from "./router/mongodb/SessionsRouter.js";
 
 const sessionsRouter = new SessionsRouter()
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8080;
 const app = express();
 const connection = mongoose.connect("mongodb+srv://egalera:123@cluster0.y0qkwla.mongodb.net/trabInteg?retryWrites=true&w=majority")
 
@@ -41,7 +41,7 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/sessions",sessionsRouter.getRouter() )
 
 
-const server = app.listen(PORT, ()=>{
+app.listen(PORT, ()=>{
     console.log(`Listen in Port: ${PORT}`)
 });
 

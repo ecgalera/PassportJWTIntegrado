@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { passportCall } from "../../services/auth.js";
 
 export default class BaseRouter {
     constructor() {
@@ -10,19 +11,19 @@ export default class BaseRouter {
     getRouter = () => this.router;
 
     get(path,policies, ...callbacks) {
-        this.router.get(path, this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
+        this.router.get(path, passportCall("jwt",{strategyType: "jwt"}) ,this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
     }
 
     post(path,policies, ...callbacks) {
-        this.router.post(path, this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
+        this.router.post(path, passportCall("jwt",{strategyType: "jwt"}) , this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
     }
 
     put(path,policies, ...callbacks) {
-        this.router.put(path, this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
+        this.router.put(path, passportCall("jwt",{strategyType: "jwt"}) , this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
     }
 
     delete(path,policies, ...callbacks) {
-        this.router.delete(path, this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
+        this.router.delete(path, passportCall("jwt",{strategyType: "jwt"}) , this.handlePolicies(policies), this.generateCustomResponses, this.applyCallbacks(callbacks))
     }
 
     // generateCustomResponses --------------------------------
@@ -31,8 +32,9 @@ export default class BaseRouter {
         res.sendSuccesWithPayload = payload => res.send({status: "succes", payload});
         res.sendInternalError = error => res.status(500).send({status: "error", error});
         res.sendUnauthorized = error => res.status(400).send({status:"error", error});
+        res.sendServerError = error => res.status(500).send({status:"error", error})
         next();
-    }
+    };
 
     // handlePolicies-----------------------------------------
     handlePolicies = policies =>{

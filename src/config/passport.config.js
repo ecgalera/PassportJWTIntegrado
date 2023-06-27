@@ -22,7 +22,7 @@ const initializePassportStrategies = () => {
             },
             async (req, email, passwort, done) => {
                 try {
-                    const { firstName, lastName } = req.body;
+                    const { firstName, lastName,role } = req.body;
                     const exists = await um.getUserBy({ email });
                     if (exists) return done(null, false, { message: "User already exists" });
                     // si el users no existe lo ingreso para lo cual lo primero que hago es hashed el password
@@ -60,6 +60,7 @@ const initializePassportStrategies = () => {
                         return done(null, result);
                     }
                     const user = await um.getUserBy({ email });
+                    console.log(user)
                     // si el usuario no es encontrado
                     if (!user) return done(null, false, { message: "User not found" });
                     // si el usuario es encontrado tengo que validad el password
